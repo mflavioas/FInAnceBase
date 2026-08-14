@@ -3,7 +3,6 @@ from pydantic import BaseModel
 from typing import List, Optional, Dict
 from db.models import PromptRegistry, StatusEnum
 from sqlalchemy.orm import Session
-from db.vector import get_db # Assuming get_db dependency exists or we mock it. Wait, the project doesn't have get_db in vector.py. I'll need to see how other routers do it.
 
 # Since I don't know the exact dependency for Session, I will mock it temporarily or look it up.
 # For now I will build the router structure.

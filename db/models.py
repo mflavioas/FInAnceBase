@@ -263,3 +263,39 @@ class PromptRegistry(Base):
     status = Column(Enum(StatusEnum), default=StatusEnum.ACTIVE)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+
+# ==========================================
+# FASE 6: INOVAÇÃO, GAPS E SIMULAÇÕES
+# ==========================================
+
+class Trend(Base):
+    __tablename__ = "trends"
+
+    id = Column(String, primary_key=True, default=generate_uuid)
+    title = Column(String, nullable=False)
+    description = Column(Text, nullable=False)
+    source_url = Column(String, nullable=True)
+    category = Column(String, nullable=False) # e.g. technology, regulation, product
+    relevance_score = Column(String, nullable=True)
+    affected_domains = Column(JSON, nullable=True)
+    status = Column(Enum(StatusEnum), default=StatusEnum.ACTIVE)
+    created_at = Column(DateTime, default=func.now())
+
+class GapAnalysis(Base):
+    __tablename__ = "gap_analyses"
+
+    id = Column(String, primary_key=True, default=generate_uuid)
+    product_id = Column(String, ForeignKey("products.id"), nullable=False)
+    gaps = Column(JSON, nullable=False) # functional, technical, regulatory
+    priority_score = Column(String, nullable=True)
+    suggested_epics = Column(JSON, nullable=True)
+    created_at = Column(DateTime, default=func.now())
+
+class Simulation(Base):
+    __tablename__ = "simulations"
+
+    id = Column(String, primary_key=True, default=generate_uuid)
+    name = Column(String, nullable=False)
+    parameters = Column(JSON, nullable=False) # family, modality, etc.
+    results = Column(JSON, nullable=True) # capabilities, norms, backlog
+    created_at = Column(DateTime, default=func.now())

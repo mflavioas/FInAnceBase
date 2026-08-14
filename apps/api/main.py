@@ -16,7 +16,7 @@ def metrics():
     # Placeholder for Prometheus metrics
     return {"status": "ok", "metrics": {}}
 
-from apps.api.routers import sources, documents, taxonomy, architecture, search, graph, inventory, assistant, prompts
+from apps.api.routers import sources, documents, taxonomy, architecture, search, graph, inventory, assistant, prompts, trends, gaps, simulator
 
 app.include_router(sources.router)
 app.include_router(documents.router)
@@ -27,6 +27,9 @@ app.include_router(graph.router)
 app.include_router(inventory.router)
 app.include_router(assistant.router)
 app.include_router(prompts.router)
+app.include_router(trends.router)
+app.include_router(gaps.router)
+app.include_router(simulator.router)
 
 if __name__ == "__main__":
     import uvicorn

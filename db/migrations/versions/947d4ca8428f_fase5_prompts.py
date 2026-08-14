@@ -30,7 +30,7 @@ def upgrade() -> None:
     sa.Column('system_prompt', sa.Text(), nullable=False),
     sa.Column('parameters', sa.JSON(), nullable=True),
     sa.Column('owner', sa.String(), nullable=True),
-    sa.Column('status', sa.Enum('ACTIVE', 'INACTIVE', 'MIGRATING', name='statusenum'), nullable=True),
+    sa.Column('status', sa.dialects.postgresql.ENUM('ACTIVE', 'INACTIVE', 'MIGRATING', name='statusenum', create_type=False), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
