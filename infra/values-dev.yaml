@@ -1,0 +1,22 @@
+# values-dev.yaml
+environment: dev
+
+db:
+  host: finknowledge-db-dev
+  port: 5432
+  user: postgres
+  password: "" # Set via CI/CD secrets
+
+redis:
+  host: finknowledge-redis-dev
+  port: 6379
+
+qdrant:
+  host: finknowledge-qdrant-dev
+  port: 6333
+
+neo4j:
+  uri: bolt://finknowledge-neo4j-dev:7687
+
+minio:
+  endpoint: finknowledge-minio-dev:9000

@@ -1,0 +1,11 @@
+site_name: FinKnowledge Antigravity
+site_description: Plataforma de Conhecimento Financeiro Auto-documentada com IA
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - PRD: prd.md
+  - Architecture: adr/index.md
+  - Runbooks: runbooks/index.md
+  - Glossary: glossary/index.md
