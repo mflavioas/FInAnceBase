@@ -244,3 +244,22 @@ class Event(Base):
     producer_service_id = Column(String, ForeignKey("services.id"), nullable=True)
     description = Column(Text, nullable=True)
     created_at = Column(DateTime, default=func.now())
+
+# ==========================================
+# FASE 5: AGENTES E WORKFLOWS
+# ==========================================
+
+class PromptRegistry(Base):
+    __tablename__ = "prompt_registry"
+
+    id = Column(String, primary_key=True, default=generate_uuid)
+    name = Column(String, nullable=False)
+    version = Column(String, nullable=False)
+    objective = Column(Text, nullable=True)
+    model_name = Column(String, nullable=False)
+    system_prompt = Column(Text, nullable=False)
+    parameters = Column(JSON, nullable=True)
+    owner = Column(String, nullable=True)
+    status = Column(Enum(StatusEnum), default=StatusEnum.ACTIVE)
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())

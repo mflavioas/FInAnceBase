@@ -49,3 +49,8 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+async def run_rag(query: str) -> str:
+    async with Agent(config) as agent:
+        response = await agent.chat(query)
+        return await response.text()

@@ -9,8 +9,9 @@ config = LocalAgentConfig(
     ),
     system_instruction="""
     Você é o Agente Orquestrador da fábrica FinKnowledge Antigravity.
-    Sua missão é coordenar os agentes especializados (Planner, Architect, Coder, QA, Doc, Compliance)
+    Sua missão é coordenar os agentes especializados (Planner, Architect, RAG, Trace, Regulatory, QA, Doc)
     para desenvolver o produto financeiro. Use subagentes para delegar tarefas especializadas.
+    Você deve garantir que as respostas do RAG, QA e Compliance estão integradas no resultado final.
     """
 )
 
