@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Text, DateTime, ForeignKey, Enum, JSON
+from sqlalchemy import Column, String, Text, DateTime, ForeignKey, Enum, JSON, Boolean, Float
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.sql import func
 import enum
@@ -298,4 +298,46 @@ class Simulation(Base):
     name = Column(String, nullable=False)
     parameters = Column(JSON, nullable=False) # family, modality, etc.
     results = Column(JSON, nullable=True) # capabilities, norms, backlog
+    created_at = Column(DateTime, default=func.now())
+
+# ==========================================
+# FASE 7: GOVERNANÇA, SEGURANÇA E QUALIDADE
+# ==========================================
+
+class Role(Base):
+    __tablename__ = "roles"
+    id = Column(String, primary_key=True, default=generate_uuid)
+    name = Column(String, unique=True, nullable=False)
+    description = Column(String, nullable=True)
+
+class User(Base):
+    __tablename__ = "users"
+    id = Column(String, primary_key=True, default=generate_uuid)
+    username = Column(String, unique=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
+    email = Column(String, unique=True, nullable=True)
+    is_active = Column(Boolean, default=True)
+
+class UserRole(Base):
+    __tablename__ = "user_roles"
+    user_id = Column(String, ForeignKey("users.id"), primary_key=True)
+    role_id = Column(String, ForeignKey("roles.id"), primary_key=True)
+
+class DataQualityReport(Base):
+    __tablename__ = "data_quality_reports"
+    id = Column(String, primary_key=True, default=generate_uuid)
+    entity_type = Column(String, nullable=False) # e.g. "product", "trend"
+    entity_id = Column(String, nullable=True)
+    quality_score = Column(Float, nullable=False)
+    issues = Column(JSON, nullable=True)
+    created_at = Column(DateTime, default=func.now())
+
+class AIEvaluation(Base):
+    __tablename__ = "ai_evaluations"
+    id = Column(String, primary_key=True, default=generate_uuid)
+    agent_name = Column(String, nullable=False)
+    prompt_id = Column(String, ForeignKey("prompt_registry.id"), nullable=True)
+    evaluation_score = Column(Float, nullable=False)
+    metrics = Column(JSON, nullable=True) # toxicity, coherence, groundedness
+    feedback = Column(Text, nullable=True)
     created_at = Column(DateTime, default=func.now())
