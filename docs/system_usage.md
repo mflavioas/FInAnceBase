@@ -37,6 +37,10 @@ C4Container
       Container(doc_agent, "Doc Agent", "Gera e atualiza documentações (ADR, C4, README).")
       Container(trace_agent, "Trace Agent", "Ingere OpenAPI no Grafo.")
       Container(pm_agent, "PM Agent", "Quebra épicos em tarefas.")
+      Container(trend_agent, "Trend Agent", "Monitora inovações de mercado.")
+      Container(gap_agent, "Gap Agent", "Analisa lacunas do produto.")
+      Container(sim_agent, "Simulator Agent", "Arquiteta simulações de novos produtos.")
+      Container(eval_agent, "Eval Agent", "Mede qualidade, toxidade e coesão das IAs.")
     }
 
     ContainerDb(rel_db, "Relational DB", "PostgreSQL", "Armazena Prompts, Modelos, Configurações.")
