@@ -46,8 +46,12 @@ Se você for rodar ou testar o projeto no seu computador, siga os passos abaixo.
    ```
    *Isso instalará as dependências Python (para a API) e gerará o arquivo `.env` (que guarda senhas e chaves ocultas).*
 
-2. **Chave da Inteligência Artificial**:
-   Abra o arquivo `.env` gerado e coloque a sua chave do provedor de IA na variável `GEMINI_API_KEY`. (Lembre-se: por segurança, esse arquivo nunca vai para o servidor central Git).
+2. **Chave da Inteligência Artificial (GEMINI_API_KEY)**:
+   - Para gerar sua chave, acesse o [Google AI Studio](https://aistudio.google.com/app/apikey).
+   - Faça login com sua conta Google e clique em **"Create API key"** para gerar uma nova chave.
+   - Copie a chave gerada e abra o arquivo `.env` localizado na raiz do projeto.
+   - Cole a sua chave na variável correspondente: `GEMINI_API_KEY=sua_chave_aqui`.
+   *(Lembre-se: por segurança, esse arquivo `.env` nunca vai para o servidor central Git e não deve ser compartilhado).*
 
 3. **Subindo os Bancos de Dados**:
    Inicialize todos os bancos de dados vetoriais, relacionais e grafos em background:
@@ -60,7 +64,10 @@ Se você for rodar ou testar o projeto no seu computador, siga os passos abaixo.
      ```bash
      python apps/api/main.py
      ```
-   - Em outro, caso queira testar a inteligência via terminal de orquestração:
+   - Em outro terminal, inicie as interfaces de usuário para acessar o sistema pelo navegador:
+     - **Chat UI**: Estará disponível em **`http://localhost:3000`**. Acesse por esta URL para interagir diretamente com a IA através da interface de conversação.
+     - **Web Admin**: Estará disponível em **`http://localhost:3001`** (ou `8080`). Utilize esta URL para gerenciar configurações globais, acessos e visualizar dashboards da plataforma.
+   - Caso queira testar a inteligência via terminal de orquestração (modo desenvolvedor):
      ```bash
      python agents/orchestrator.py
      ```
