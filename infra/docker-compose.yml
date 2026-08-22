@@ -27,7 +27,7 @@ services:
     image: qdrant/qdrant:latest
     container_name: finknowledge-qdrant
     ports:
-      - "6334:6333"
+      - "6335:6333"
     volumes:
       - qdrantdata:/qdrant/storage
     restart: unless-stopped
