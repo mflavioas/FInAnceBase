@@ -62,7 +62,7 @@ Se você for rodar ou testar o projeto no seu computador, siga os passos abaixo.
 4. **Iniciando a Plataforma**:
    - Em um terminal, inicie a API:
      ```bash
-     python apps/api/main.py
+     PYTHONPATH=. python apps/api/main.py
      ```
    - Em outro terminal, inicie as interfaces de usuário para acessar o sistema pelo navegador:
      - **Chat UI**: Estará disponível em **`http://localhost:3000`**. Acesse por esta URL para interagir diretamente com a IA através da interface de conversação.

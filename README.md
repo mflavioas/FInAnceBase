@@ -45,7 +45,7 @@ make up
   ```
 - **Para subir a API (FastAPI):**
   ```bash
-  python apps/api/main.py
+  PYTHONPATH=. python apps/api/main.py
   ```
 
 ## Estrutura do Projeto
