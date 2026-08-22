@@ -1,5 +1,10 @@
 import asyncio
 import os
+from dotenv import load_dotenv
+
+# Carrega variáveis de ambiente do .env na raiz
+load_dotenv()
+
 from google.antigravity import Agent, LocalAgentConfig, types
 
 # Enable subagents in the capabilities
