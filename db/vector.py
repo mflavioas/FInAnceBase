@@ -3,10 +3,10 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams
 
 QDRANT_HOST = os.getenv("QDRANT_HOST", "localhost")
-QDRANT_PORT = os.getenv("QDRANT_PORT", "6334") # Using the updated port
+QDRANT_PORT = os.getenv("QDRANT_PORT", "6335") # Using the mapped port from docker-compose
 
 try:
-    client = QdrantClient(url=f"http://{QDRANT_HOST}:{QDRANT_PORT}")
+    client = QdrantClient(url=f"http://{QDRANT_HOST}:{QDRANT_PORT}", check_compatibility=False)
 except Exception as e:
     print(f"Failed to connect to Qdrant: {e}")
     client = None

@@ -7,6 +7,12 @@ app = FastAPI(
     version="1.0.0"
 )
 
+from fastapi.responses import RedirectResponse
+
+@app.get("/", include_in_schema=False)
+def root():
+    return RedirectResponse(url="/docs")
+
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
