@@ -7,6 +7,8 @@
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --border: rgba(255, 255, 255, 0.1);
+  --success: #10b981;
+  --error: #ef4444;
 }
 
 * {
@@ -30,7 +32,32 @@ body {
   display: flex;
   height: 100vh;
   overflow: hidden;
+  position: relative;
 }
+
+.toast {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
+  color: white;
+  z-index: 50;
+  animation: slideIn 0.3s ease-out;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.toast.success { background-color: var(--success); }
+.toast.error { background-color: var(--error); }
 
 .sidebar {
   width: 260px;
@@ -207,6 +234,12 @@ nav {
   color: var(--text-muted);
 }
 
+.help-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
 input, select {
   background-color: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border);
@@ -215,6 +248,27 @@ input, select {
   border-radius: 8px;
   font-size: 0.875rem;
   outline: none;
+  width: 100%;
+}
+
+input[type="file"] {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+  background-color: rgba(255,255,255,0.1);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  color: white;
+  cursor: pointer;
+  margin-right: 1rem;
+  transition: background-color 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: rgba(255,255,255,0.2);
 }
 
 input:focus, select:focus {
@@ -269,6 +323,10 @@ input:focus, select:focus {
 .url-col {
   color: var(--text-muted);
   font-size: 0.875rem;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .badge {

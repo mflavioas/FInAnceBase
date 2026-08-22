@@ -1,29 +1,39 @@
 import { useState, useEffect } from 'react';
-import { Database, UploadCloud, Activity, Settings, Plus, LayoutDashboard, Globe, FileText, CheckCircle2 } from 'lucide-react';
+import { Database, UploadCloud, Activity, Settings, Plus, LayoutDashboard, Globe, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
 
 interface Source {
   id: string;
   name: string;
   url: string;
-  source_type: 'WEB' | 'DOCUMENT' | 'DATABASE';
-  status: 'ACTIVE' | 'PROCESSING' | 'ERROR';
+  source_type: string;
+  status: string;
 }
 
 function App() {
   const [sources, setSources] = useState<Source[]>([]);
   const [isAdding, setIsAdding] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   
   const [formData, setFormData] = useState({
     name: '',
     url: '',
-    source_type: 'WEB'
+    source_type: 'BACEN'
   });
+  
+  const [file, setFile] = useState<File | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 4000);
+  };
 
   const fetchSources = async () => {
     try {
       const res = await fetch('http://localhost:8000/sources/');
-      const data = await res.json();
-      setSources(data);
+      if (res.ok) {
+        const data = await res.json();
+        setSources(data);
+      }
     } catch (e) {
       console.error("Erro ao buscar fontes:", e);
     }
@@ -35,24 +45,62 @@ function App() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const isFileUpload = formData.source_type === 'INTERNAL' || formData.source_type === 'MANUAL';
+    
     try {
-      const res = await fetch('http://localhost:8000/sources/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
+      let res;
+      if (isFileUpload) {
+        if (!file) {
+          showToast("Por favor, selecione um arquivo para anexar.", "error");
+          return;
+        }
+        const data = new FormData();
+        data.append('name', formData.name);
+        data.append('file', file);
+        
+        res = await fetch('http://localhost:8000/sources/upload', {
+          method: 'POST',
+          body: data
+        });
+      } else {
+        if (!formData.url) {
+          showToast("A URL não pode estar vazia.", "error");
+          return;
+        }
+        res = await fetch('http://localhost:8000/sources/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            url: formData.url,
+            source_type: formData.source_type
+          })
+        });
+      }
+
       if (res.ok) {
-        setFormData({ name: '', url: '', source_type: 'WEB' });
+        setFormData({ name: '', url: '', source_type: 'BACEN' });
+        setFile(null);
         setIsAdding(false);
+        showToast("Fonte cadastrada com sucesso!", "success");
         fetchSources();
+      } else {
+        showToast("Erro da API ao tentar cadastrar fonte. Tente novamente.", "error");
       }
     } catch (e) {
-      console.error("Erro ao adicionar fonte:", e);
+      showToast("Erro de conexão. A API está rodando?", "error");
     }
   };
 
   return (
     <div className="admin-container">
+      {toast && (
+        <div className={`toast ${toast.type}`}>
+          {toast.type === 'success' ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
+          <span>{toast.message}</span>
+        </div>
+      )}
+
       <aside className="sidebar">
         <div className="logo">
           <Database className="logo-icon" size={24} />
@@ -100,20 +148,36 @@ function App() {
               <form onSubmit={handleSubmit} className="add-form">
                 <div className="form-group">
                   <label>Nome do Contexto</label>
-                  <input required type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="Ex: Normativa Bacen 2024" />
+                  <input required type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="Ex: Normativa BACEN 2024 ou Contrato Interno" />
                 </div>
+                
                 <div className="form-group">
-                  <label>URL ou Caminho</label>
-                  <input required type="text" value={formData.url} onChange={e => setFormData({...formData, url: e.target.value})} placeholder="https://..." />
-                </div>
-                <div className="form-group">
-                  <label>Tipo</label>
+                  <label>Tipo (Categoria)</label>
                   <select value={formData.source_type} onChange={e => setFormData({...formData, source_type: e.target.value})}>
-                    <option value="WEB">Site / Web</option>
-                    <option value="DOCUMENT">Documento (PDF/Docx)</option>
-                    <option value="DATABASE">Banco de Dados</option>
+                    <option value="BACEN">Externa - BACEN (URL)</option>
+                    <option value="CMN">Externa - CMN (URL)</option>
+                    <option value="PLANALTO">Externa - Planalto (URL)</option>
+                    <option value="API">Externa - Integração de API (URL)</option>
+                    <option value="INTERNAL">Interno - Upload de Documento (PDF/Word)</option>
+                    <option value="MANUAL">Manual - Base Legada Local</option>
                   </select>
+                  <small className="help-text">
+                    Tipos externos requerem uma URL válida. Tipos internos exigem o upload do arquivo.
+                  </small>
                 </div>
+
+                {(formData.source_type === 'INTERNAL' || formData.source_type === 'MANUAL') ? (
+                  <div className="form-group">
+                    <label>Anexar Arquivo</label>
+                    <input type="file" onChange={e => setFile(e.target.files ? e.target.files[0] : null)} className="file-input" />
+                  </div>
+                ) : (
+                  <div className="form-group">
+                    <label>URL / Caminho</label>
+                    <input type="text" value={formData.url} onChange={e => setFormData({...formData, url: e.target.value})} placeholder="https://..." />
+                  </div>
+                )}
+                
                 <div className="form-actions">
                   <button type="button" className="btn-text" onClick={() => setIsAdding(false)}>Cancelar</button>
                   <button type="submit" className="btn-primary"><UploadCloud size={18} /> Ingestar Dados</button>
@@ -134,7 +198,7 @@ function App() {
                   <tr>
                     <th>Nome</th>
                     <th>Tipo</th>
-                    <th>URL</th>
+                    <th>URL ou Arquivo</th>
                     <th>Status</th>
                   </tr>
                 </thead>

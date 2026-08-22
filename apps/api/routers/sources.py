@@ -1,7 +1,9 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, UploadFile, File, Form
 from pydantic import BaseModel
 from typing import List, Optional
 from db.models import SourceType, SourceStatus
+import os
+import shutil
 # In a real app we would use SQLAlchemy Session, but here we mock for simplicity of Fase 1 API scaffold
 
 router = APIRouter(prefix="/sources", tags=["Sources"])
@@ -37,3 +39,26 @@ def list_sources():
 def trigger_collection(source_id: str):
     # This endpoint would send a Celery task to collect documents
     return {"message": "Collection triggered in background."}
+
+UPLOAD_DIR = "apps/api/uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+@router.post("/upload", response_model=SourceResponse)
+async def upload_source(
+    file: UploadFile = File(...),
+    name: str = Form(...),
+    entity: Optional[str] = Form(None)
+):
+    file_path = os.path.join(UPLOAD_DIR, file.filename)
+    
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+        
+    return SourceResponse(
+        id="mock-uuid-upload",
+        name=name,
+        url=file_path,
+        source_type=SourceType.INTERNAL,
+        entity=entity,
+        status=SourceStatus.ACTIVE
+    )
