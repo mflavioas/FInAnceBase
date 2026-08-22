@@ -64,9 +64,21 @@ Se você for rodar ou testar o projeto no seu computador, siga os passos abaixo.
      ```bash
      PYTHONPATH=. python apps/api/main.py
      ```
-   - Em outro terminal, inicie as interfaces de usuário para acessar o sistema pelo navegador:
-     - **Chat UI**: Estará disponível em **`http://localhost:3000`**. Acesse por esta URL para interagir diretamente com a IA através da interface de conversação.
-     - **Web Admin**: Estará disponível em **`http://localhost:3001`** (ou `8080`). Utilize esta URL para gerenciar configurações globais, acessos e visualizar dashboards da plataforma.
+   - Em outros terminais, inicie as interfaces de usuário (front-end) rodando os comandos dentro de seus respectivos diretórios:
+     - **Chat UI**: 
+       ```bash
+       cd apps/chat-ui
+       npm install && npm run dev
+       ```
+       O chat estará disponível em **`http://localhost:3000`**.
+     - **Web Admin**: 
+       ```bash
+       cd apps/web-admin
+       npm install && npm run dev
+       ```
+       O painel administrativo estará disponível em **`http://localhost:3001`**.
+     
+     *(Nota: Se os diretórios estiverem vazios no repositório local, significa que o código do front-end ainda será enviado. Neste caso, continue os testes usando a documentação da API em `http://localhost:8000/docs` ou o terminal de orquestração).*
    - Caso queira testar a inteligência via terminal de orquestração (modo desenvolvedor):
      ```bash
      python agents/orchestrator.py
