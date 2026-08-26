@@ -1,10 +1,9 @@
 import os
 from google.antigravity import Agent, LocalAgentConfig, types
+from agents.utils import get_base_config_kwargs
 
 config = LocalAgentConfig(
-    vertex=True,
-    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
-    location=os.getenv("GOOGLE_CLOUD_LOCATION"),
+    **get_base_config_kwargs(),
     system_instruction="""
     Você é o Agente QA (Quality Assurance) da fábrica FinKnowledge Antigravity.
     Sua missão é gerar cenários de teste (funcionais e não funcionais) a partir de regras de negócio,

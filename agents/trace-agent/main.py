@@ -5,6 +5,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 from google.antigravity import Agent, LocalAgentConfig
+from agents.utils import get_base_config_kwargs
 from db.graph import graph_db
 
 def tool_trace_openapi(openapi_json_content: str):
@@ -26,9 +27,7 @@ def tool_trace_openapi(openapi_json_content: str):
 
 
 config = LocalAgentConfig(
-    vertex=True,
-    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
-    location=os.getenv("GOOGLE_CLOUD_LOCATION"),
+    **get_base_config_kwargs(),
     system_instruction="""
     Você é um agente de rastreabilidade especializado em arquitetura de software e governança corporativa.
     Seu papel é ler especificações OpenAPI ou definições de repositórios e extrair o inventário.

@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
+print("DEBUG ENV:", os.getenv("GOOGLE_CLOUD_PROJECT"))
 
 app = FastAPI(
     title="FinKnowledge Antigravity API",

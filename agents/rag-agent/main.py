@@ -5,6 +5,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 from google.antigravity import Agent, LocalAgentConfig
+from agents.utils import get_base_config_kwargs
 from db.vector import search_documents
 
 # Injeção de Tools no Antigravity Agent
@@ -28,9 +29,7 @@ def tool_search_documents(query_text: str):
 
 
 config = LocalAgentConfig(
-    vertex=True,
-    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
-    location=os.getenv("GOOGLE_CLOUD_LOCATION"),
+    **get_base_config_kwargs(),
     system_instruction="""
     Você é um assistente RAG especializado em regulação de crédito.
     Para responder qualquer pergunta, você deve OBRIGATORIAMENTE utilizar a ferramenta `tool_search_documents`

@@ -6,12 +6,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from google.antigravity import Agent, LocalAgentConfig, types
+from agents.utils import get_base_config_kwargs
 
 # Enable subagents in the capabilities
 config = LocalAgentConfig(
-    vertex=True,
-    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
-    location=os.getenv("GOOGLE_CLOUD_LOCATION"),
+    **get_base_config_kwargs(),
     capabilities=types.CapabilitiesConfig(
         enable_subagents=True,
     ),
@@ -26,8 +25,8 @@ config = LocalAgentConfig(
 )
 
 async def main():
-    if not os.getenv("GOOGLE_CLOUD_PROJECT"):
-        print("Aviso: GOOGLE_CLOUD_PROJECT não encontrada. As respostas falharão se não estiver usando Vertex AI com ADC corretamente.")
+    if not os.getenv("GEMINI_API_KEY"):
+        print("Aviso: GEMINI_API_KEY não encontrada. As requisições falharão sem uma chave de API válida.")
     
     print("Iniciando Orquestrador FinKnowledge Antigravity...")
     async with Agent(config) as agent:
@@ -35,9 +34,15 @@ async def main():
         epic_prompt = "Crie uma análise inicial de arquitetura para o produto de Crédito Consignado INSS usando o Architect Agent e depois planeje as tarefas usando o Planner Agent."
         print(f"Enviando épico para orquestração: {epic_prompt}")
         
-        response = await agent.chat(epic_prompt)
-        print("\n=== Resultado da Orquestração ===\n")
-        print(await response.text())
+        try:
+            response = await agent.chat(epic_prompt)
+            print("\n=== Resultado da Orquestração ===\n")
+            print(await response.text())
+        except types.AntigravityConnectionError as e:
+            print(f"\n[ERRO DE CONEXÃO] Falha de comunicação com a API: {e}")
+            print("Verifique sua conexão com a internet ou sua GEMINI_API_KEY.")
+        except types.AntigravityValidationError as e:
+            print(f"\n[ERRO DE VALIDAÇÃO] Parâmetros inválidos fornecidos: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main())

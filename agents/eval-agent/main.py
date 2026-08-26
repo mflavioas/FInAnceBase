@@ -1,10 +1,9 @@
 import os
 from google.antigravity import Agent, LocalAgentConfig, types
+from agents.utils import get_base_config_kwargs
 
 config = LocalAgentConfig(
-    vertex=True,
-    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
-    location=os.getenv("GOOGLE_CLOUD_LOCATION"),
+    **get_base_config_kwargs(),
     system_instruction="""
     Você é o Agente Avaliador de IA (AI Eval) da fábrica FinKnowledge Antigravity.
     Sua missão é testar a qualidade das respostas geradas por outros agentes do sistema.
