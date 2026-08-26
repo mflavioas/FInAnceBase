@@ -37,6 +37,7 @@ Se você for rodar ou testar o projeto no seu computador, siga os passos abaixo.
 - [Docker](https://docs.docker.com/get-docker/) e Docker Compose instalados.
 - [Python 3.10+](https://www.python.org/downloads/).
 - Utilitário `make` instalado (padrão em sistemas Linux e macOS).
+- [Google Cloud CLI (gcloud)](https://cloud.google.com/sdk/docs/install) instalado (necessário para autenticação no Vertex AI).
 
 ### Passo a Passo
 1. **Setup Inicial (Dependências e Variáveis)**:
@@ -48,6 +49,7 @@ Se você for rodar ou testar o projeto no seu computador, siga os passos abaixo.
 
 2. **Autenticação no Google Cloud (Vertex AI)**:
    - A plataforma utiliza os recursos do Vertex AI, cobrando diretamente no seu projeto Google Cloud.
+   > **Nota:** É necessário ter o Google Cloud CLI instalado. Se ainda não o tem, baixe e instale através da [documentação oficial do Google](https://cloud.google.com/sdk/docs/install) antes de prosseguir.
    - No terminal da sua máquina, faça login rodando:
      ```bash
      gcloud auth application-default login
