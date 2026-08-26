@@ -18,7 +18,7 @@ O arquivo `.gitignore` já está configurado para ignorar qualquer arquivo que i
 Para configurar seu ambiente local:
 
 1. O comando `make setup` copiará o arquivo `.env.example` para `.env`. 
-2. Abra o arquivo `.env` gerado e preencha suas chaves locais, especialmente a `GEMINI_API_KEY` para que os agentes (via Google Antigravity SDK) possam rodar localmente. Em produção ou outros ambientes, os provedores são agnósticos e baseados nos `.env` injetados.
+2. Abra o arquivo `.env` gerado e preencha as configurações do seu projeto GCP (`GOOGLE_CLOUD_PROJECT` e `GOOGLE_CLOUD_LOCATION`). Em seguida, execute `gcloud auth application-default login` para se autenticar localmente com o Google Cloud (usando Vertex AI). Em produção ou outros ambientes, a autenticação via Service Account ocorre automaticamente.
 
 ## Instalação e Execução
 

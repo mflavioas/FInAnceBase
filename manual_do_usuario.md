@@ -46,11 +46,15 @@ Se você for rodar ou testar o projeto no seu computador, siga os passos abaixo.
    ```
    *Isso instalará as dependências Python (para a API) e gerará o arquivo `.env` (que guarda senhas e chaves ocultas).*
 
-2. **Chave da Inteligência Artificial (GEMINI_API_KEY)**:
-   - Para gerar sua chave, acesse o [Google AI Studio](https://aistudio.google.com/app/apikey).
-   - Faça login com sua conta Google e clique em **"Create API key"** para gerar uma nova chave.
-   - Copie a chave gerada e abra o arquivo `.env` localizado na raiz do projeto.
-   - Cole a sua chave na variável correspondente: `GEMINI_API_KEY=sua_chave_aqui`.
+2. **Autenticação no Google Cloud (Vertex AI)**:
+   - A plataforma utiliza os recursos do Vertex AI, cobrando diretamente no seu projeto Google Cloud.
+   - No terminal da sua máquina, faça login rodando:
+     ```bash
+     gcloud auth application-default login
+     ```
+   - No arquivo `.env` na raiz do projeto, preencha as configurações correspondentes:
+     `GOOGLE_CLOUD_PROJECT=seu-projeto`
+     `GOOGLE_CLOUD_LOCATION=us-central1`
    *(Lembre-se: por segurança, esse arquivo `.env` nunca vai para o servidor central Git e não deve ser compartilhado).*
 
 3. **Subindo os Bancos de Dados**:

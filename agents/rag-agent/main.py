@@ -28,6 +28,9 @@ def tool_search_documents(query_text: str):
 
 
 config = LocalAgentConfig(
+    vertex=True,
+    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
+    location=os.getenv("GOOGLE_CLOUD_LOCATION"),
     system_instruction="""
     Você é um assistente RAG especializado em regulação de crédito.
     Para responder qualquer pergunta, você deve OBRIGATORIAMENTE utilizar a ferramenta `tool_search_documents`

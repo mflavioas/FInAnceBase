@@ -1,6 +1,10 @@
+import os
 from google.antigravity import Agent, LocalAgentConfig, types
 
 config = LocalAgentConfig(
+    vertex=True,
+    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
+    location=os.getenv("GOOGLE_CLOUD_LOCATION"),
     system_instruction="""
     Você é o Gap Agent (Product Manager focado em Lacunas) da fábrica FinKnowledge Antigravity.
     Sua missão é receber as capacidades ideais de um produto e compará-las com as capacidades 

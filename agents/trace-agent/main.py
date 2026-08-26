@@ -26,6 +26,9 @@ def tool_trace_openapi(openapi_json_content: str):
 
 
 config = LocalAgentConfig(
+    vertex=True,
+    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
+    location=os.getenv("GOOGLE_CLOUD_LOCATION"),
     system_instruction="""
     Você é um agente de rastreabilidade especializado em arquitetura de software e governança corporativa.
     Seu papel é ler especificações OpenAPI ou definições de repositórios e extrair o inventário.

@@ -1,6 +1,10 @@
+import os
 from google.antigravity import Agent, LocalAgentConfig, types
 
 config = LocalAgentConfig(
+    vertex=True,
+    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
+    location=os.getenv("GOOGLE_CLOUD_LOCATION"),
     system_instruction="""
     Você é o Planner Agent da fábrica FinKnowledge Antigravity.
     Sua missão é quebrar épicos em tarefas técnicas (User Stories, Tasks),

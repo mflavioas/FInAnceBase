@@ -1,6 +1,10 @@
+import os
 from google.antigravity import Agent, LocalAgentConfig, types
 
 config = LocalAgentConfig(
+    vertex=True,
+    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
+    location=os.getenv("GOOGLE_CLOUD_LOCATION"),
     system_instruction="""
     Você é o Architect Agent da fábrica FinKnowledge Antigravity.
     Sua missão é sugerir bounded contexts, serviços, eventos, integrações e APIs

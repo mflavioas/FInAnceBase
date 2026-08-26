@@ -9,6 +9,9 @@ from google.antigravity import Agent, LocalAgentConfig, types
 
 # Enable subagents in the capabilities
 config = LocalAgentConfig(
+    vertex=True,
+    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
+    location=os.getenv("GOOGLE_CLOUD_LOCATION"),
     capabilities=types.CapabilitiesConfig(
         enable_subagents=True,
     ),
@@ -23,8 +26,8 @@ config = LocalAgentConfig(
 )
 
 async def main():
-    if not os.getenv("GEMINI_API_KEY"):
-        print("Aviso: GEMINI_API_KEY não encontrada. As respostas podem falhar se a autenticação não estiver configurada no ambiente.")
+    if not os.getenv("GOOGLE_CLOUD_PROJECT"):
+        print("Aviso: GOOGLE_CLOUD_PROJECT não encontrada. As respostas falharão se não estiver usando Vertex AI com ADC corretamente.")
     
     print("Iniciando Orquestrador FinKnowledge Antigravity...")
     async with Agent(config) as agent:

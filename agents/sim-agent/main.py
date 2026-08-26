@@ -1,6 +1,10 @@
+import os
 from google.antigravity import Agent, LocalAgentConfig, types
 
 config = LocalAgentConfig(
+    vertex=True,
+    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
+    location=os.getenv("GOOGLE_CLOUD_LOCATION"),
     system_instruction="""
     Você é o Simulator Agent (Arquiteto de Produtos) da fábrica FinKnowledge Antigravity.
     Sua missão é receber parâmetros básicos de um novo produto (família, modalidade, desconto, canal, garantias)
